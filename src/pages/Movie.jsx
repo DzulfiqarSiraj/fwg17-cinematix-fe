@@ -23,17 +23,6 @@ function Movie() {
   const [prevPage, setPrevPage] = useState()
   const [totalPage, setTotalPage] = useState()
 
-
-
-  useEffect(()=>{
-    window.scrollTo({
-      top:0,
-      left:0,
-      behavior:'smooth'
-    })
-    getMovie()
-  },[])
-
  
   const getMovie = async () => {
     setLoadingMovie(true)
@@ -56,12 +45,19 @@ function Movie() {
       }
     }catch(error){
       console.error("no Movie",error)
-      setErrorMovie("Failed to fatch get movie") // jika link or endpoint tidak berfungsi
+      setErrorMovie("Failed to fetch get movie") // jika link or endpoint tidak berfungsi
     }
     setLoadingMovie(false)
   }
 
-
+  useEffect(()=>{
+    window.scrollTo({
+      top:0,
+      left:0,
+      behavior:'smooth'
+    })
+    getMovie()
+  },[])
 
   const handlingNextPage = async () => {
     window.scrollTo({
@@ -262,9 +258,9 @@ function Movie() {
             </form>
           </div>
           
-          <div className="hidden md:flex flex-col gap-y-4 lg:gap-y-7">
-            <p className="text-secondary font-semibold">Filter</p>
-            <div className="flex flex-col md:flex-row md:gap-x-8 md:items-center text-sm font-nunito font-semibold">
+          <div className="flex-col hidden md:flex gap-y-4 lg:gap-y-7">
+            <p className="font-semibold text-secondary">Filter</p>
+            <div className="flex flex-col text-sm font-semibold md:flex-row md:gap-x-8 md:items-center font-nunito">
               {Genre.map((value, i) => {
                 return (
                   <button
@@ -282,13 +278,13 @@ function Movie() {
               })}
             </div>
           </div>
-          <div className="flex flex-col gap-y-4 md:w-1/4 relative z-10 sm:hidden">
+          <div className="relative z-10 flex flex-col gap-y-4 md:w-1/4 sm:hidden">
             <p className="md:text-[20px] font-semibold text-black">Filter</p>
             <div
               className="flex justify-between items-center p-4 px-6 bg-[#EFF0F6] rounded-md cursor-pointer w-full"
               onClick={() => setIsGenre((state) => !state)}
             >
-              <p className="text-xs lg:text-base text-secondary font-semibold">
+              <p className="text-xs font-semibold lg:text-base text-secondary">
                 {genre}
               </p>
               <img src={getImageUrl("Forward", "svg")} alt="icon" />
@@ -307,7 +303,7 @@ function Movie() {
                         setIsGenre((state) => !state);
                       }}
                     >
-                      <p className="text-xs lg:text-base text-secondary font-semibold">
+                      <p className="text-xs font-semibold lg:text-base text-secondary">
                         {value}
                       </p>
                     </button>
@@ -327,7 +323,7 @@ function Movie() {
             <Loading/>
           </div>
         ): errorMovie?(<div role="alert" className="alert alert-error">
-        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
         <span>{errorMovie}</span>
         </div>
         ):(
